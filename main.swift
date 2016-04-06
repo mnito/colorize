@@ -1,2 +1,5 @@
 print("Red".inRed() + "Green".inGreen() + "Blue".inBlue())
-print("color".colorize(100, g: 32, b: 45))
+print("color".inCyan())
+var str = "testmtset"
+print(str.hasPrefix("test"))
+print(str.hasPrefix("cool"))
