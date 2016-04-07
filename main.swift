@@ -1,0 +1,7 @@
+var libName = "C".colorize(Color.Red) + "o".colorize(Color.BrightGreen)
+libName += "l".colorize(59, g: 193, b: 237).highlight(RGB(r: 139, g: 22, b: 145))
+libName += "o".highlight(30) + "r".colorize(234)
+libName += "i".highlight(Color.Black)
+libName += "z".highlight(Color.Magenta).colorize(RGB(r: 245, g: 101, b: 5))
+libName += "e".highlight(245, g: 5, b: 93)
+print(libName + " Extension")
