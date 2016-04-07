@@ -17,7 +17,7 @@ public struct RGB {
 }
 
 public extension String {
-    
+
   private func escape(s: String) -> String {
     return "\u{001B}[0;\(s)m"
   }
