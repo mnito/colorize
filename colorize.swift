@@ -52,24 +52,26 @@ public extension String {
         return self.hasPrefix("\u{001B}[0;")
     }
 
-    private mutating func addEscapeCode(code: String) -> String {
-        if self.hasEscapePrefix() {
-            return self.escape(code) + self.appendDefault()
-        }
-        insertContentsOf(code.characters, at: positionOf(Character("m")))
-        return self
-    }
-
     private func appendDefault() -> String {
         return self + escape(String(ConsoleColor.Default.rawValue))
     }
 
+    private func addEscapeCode(code: String) -> String {
+        var temp = self
+        if !self.hasEscapePrefix() {
+            return escape(code) + self.appendDefault()
+        }
+        let aCode = ";" + code
+        temp.insertContentsOf(aCode.characters, at: positionOf(Character("m")))
+        return temp
+    }
+
     public func colorize(color: ConsoleColor) -> String {
-        return escape(String(color.rawValue)) + self.appendDefault()
+        return addEscapeCode(String(color.rawValue))
     }
 
     public func colorize(r: Int, g: Int, b: Int) -> String {
-        return escape("38;2;\(r);\(g);\(b)") + self.appendDefault()
+        return addEscapeCode("38;2;\(r);\(g);\(b)")
     }
 
     public func colorize(rgb: RGB) -> String {
@@ -77,27 +79,23 @@ public extension String {
     }
     
     public func colorize(index: Int) -> String {
-        return escape("38;5;\(index)") + self.appendDefault()
+        return addEscapeCode("38;5;\(index)")
     }
 
     public func highlight(color: ConsoleColor) -> String {
-        return escape(String(color.rawValue + 10))
+        return addEscapeCode(String(color.rawValue + 10))
     }
 
     public func highlight(index: Int) -> String {
-        return escape("38;5\(index)") + self.appendDefault()
+        return addEscapeCode("48;5\(index)")
     }
 
     public func highlight(r: Int, g: Int, b: Int) -> String {
-        return escape("48;2;\(r);\(g);\(b)") + self.appendDefault()
+        return addEscapeCode("48;2;\(r);\(g);\(b)")
     }
 
     public func highlight(rgb: RGB) -> String {
         return highlight(rgb.r, g: rgb.g, b: rgb.b)
-    }
-
-    public func colorize(text: RGB, highlight: RGB) -> String {
-        return ""
     }
 
     public func inRed() -> String {
